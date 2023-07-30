@@ -1,0 +1,12 @@
+# Blender 3.5.1 MTL File: 'Zappe 09.blend'
+# www.blender.org
+
+newmtl Gun_Texture
+Ns 387.789276
+Ka 0.250000 0.250000 0.250000
+Ks 0.927273 0.927273 0.927273
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd C:/Users/1029666/Desktop/Nintendo Zapper/1x/Added Line.png
