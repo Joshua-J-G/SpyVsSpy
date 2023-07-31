@@ -39,6 +39,28 @@ public class PlayerManager : MonoBehaviour
     }
 
  
+    public List<PlayerController> GetTeam(Team team)
+    {
+        switch (team)
+        {
+            case Team.Black:
+
+                return Whiteteam;
+
+                
+
+            case Team.White:
+
+                return Blackteam;
+
+                
+        
+        }
+
+        return null;
+
+    }
+
 
 
     public void RegisterUserToTeam(PlayerController player)

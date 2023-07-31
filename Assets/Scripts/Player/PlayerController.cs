@@ -18,6 +18,10 @@ public class PlayerController : MonoBehaviour
 {
     public Team team = Team.none;
 
+  
+    public PowerUps PowerUpSlot;
+
+
     [SerializeField]
     private LayerMask WhiteTeam;
     [SerializeField]
@@ -133,18 +137,67 @@ public class PlayerController : MonoBehaviour
     float durationSeeAll = 5f;
     public void StartSeeALLPowerUp()
     {
-        InPowerUP = true;
-        playerCamera.cullingMask = SeelALl;
-        Invoke("EndSeeALLPowerUP", durationSeeAll);
+        PowerUpSlot = PowerUps.ShowEnemiesToPlayer;
+       
     }
 
     public void EndSeeALLPowerUP()
     {
+        PowerUpSlot = PowerUps.none;
         InPowerUP = false;
     }
 
 
-    
+
+    public void UsePowerUpSlot()
+    {
+        switch (PowerUpSlot)
+        {
+            case PowerUps.ShowEnemiesToPlayer:
+
+                InPowerUP = true;
+                playerCamera.cullingMask = SeelALl;
+                Invoke("EndSeeALLPowerUP", durationSeeAll);
+
+
+                break;
+            case PowerUps.freeze:
+                FreezeOtherPlayers();
+                break;
+        
+        
+        }
+
+    }
+
+
+    public void FreezeOtherPlayers()
+    {
+        PowerUpSlot = PowerUps.none;
+        foreach (PlayerController c in PlayerManager.Instance.GetTeam(team))
+        {
+            c.freeze();
+        }
+           
+
+    }
+
+    bool canMove = true;
+
+    [SerializeField] private float timeofFreeze = 3f;
+
+    public void freeze()
+    {
+        CancelInvoke("endFreeze");
+        
+        canMove = false;
+        Invoke("endFreeze", timeofFreeze);
+    }
+
+    private void endFreeze()
+    {
+        canMove = true;
+    }
 
     public void Dammage()
     {
@@ -228,6 +281,12 @@ public class PlayerController : MonoBehaviour
 
     public void MovePlayer()
     {
+        if(!canMove)
+        {
+            return;
+
+        }
+
         Vector3 move = transform.right * Move.x+ transform.forward * Move.y;
 
 

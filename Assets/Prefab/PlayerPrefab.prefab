@@ -337,6 +337,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: dbb4a215-8e41-4d7a-ba34-05a7c9db2acb
     m_ActionName: Player1/Attack[/XInputControllerWindows/rightTrigger]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2409737932152025862}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: UsePowerUpSlot
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 89ef2530-d0f0-453c-910a-9bc337c0e3e4
+    m_ActionName: Player1/Use Ability[/XInputControllerWindows/leftTrigger,/XInputControllerWindows1/leftTrigger]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player1
@@ -373,6 +389,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 0
+  PowerUpSlot: 0
   WhiteTeam:
     serializedVersion: 2
     m_Bits: 1073741887
@@ -394,6 +411,7 @@ MonoBehaviour:
   StickSensitivity: 100
   gravity: -9.81
   jumpHeight: 3
+  timeofFreeze: 3
   CamContainer: {fileID: 0}
 --- !u!1 &2409737932279588750
 GameObject:

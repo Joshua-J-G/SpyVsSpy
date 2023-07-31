@@ -4,7 +4,10 @@ using UnityEngine;
 
 public enum PowerUps
 {
-    ShowEnemiesToPlayer
+    none,
+    ShowEnemiesToPlayer,
+    freeze,
+    teleport
 }
 
 
@@ -22,6 +25,10 @@ public class PickupableObject : MonoBehaviour
             { 
                 case PowerUps.ShowEnemiesToPlayer:
                     other.gameObject.GetComponent<PlayerController>().StartSeeALLPowerUp();
+                    Destroy(gameObject);
+                    break;
+                case PowerUps.freeze:
+                    other.gameObject.GetComponent<PlayerController>().PowerUpSlot = PowerUps.freeze;
                     Destroy(gameObject);
                     break;
             }
