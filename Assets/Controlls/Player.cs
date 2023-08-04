@@ -60,7 +60,7 @@ public partial class @Player: IInputActionCollection2, IDisposable
                     ""id"": ""dbb4a215-8e41-4d7a-ba34-05a7c9db2acb"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -69,7 +69,7 @@ public partial class @Player: IInputActionCollection2, IDisposable
                     ""id"": ""89ef2530-d0f0-453c-910a-9bc337c0e3e4"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""initialStateCheck"": false
                 }
             ],
@@ -199,7 +199,7 @@ public partial class @Player: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""125eef02-2d96-41b4-b38a-be41f80e1442"",
                     ""path"": ""<Gamepad>/rightTrigger"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Attack"",

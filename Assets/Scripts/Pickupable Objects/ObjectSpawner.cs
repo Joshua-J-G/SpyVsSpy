@@ -22,7 +22,7 @@ public class ObjectSpawner : MonoBehaviour
     {
         respawning = false;
         yield return new WaitForSeconds(timebeforeRespawn);
-        aboveObjects = Instantiate(BaseObject);
+        aboveObjects = Instantiate(BaseObject,transform);
         respawning = true;
     }
 

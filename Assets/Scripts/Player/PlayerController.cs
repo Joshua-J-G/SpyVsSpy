@@ -70,6 +70,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float jumpHeight = 3f;
 
+
+
+
+    [SerializeField]
+    private ParticleSystem MuzzelFash;
+
+
+    [SerializeField]
+    private ParticleSystem Smoke;
+
     private void OnEnable()
     {
         Input = new();
@@ -86,7 +96,7 @@ public class PlayerController : MonoBehaviour
     public void Respawn()
     {
         CC.enabled = false;
-        gameObject.gameObject.transform.position = PlayerManager.Instance.SpawnPoints[Random.Range(0, PlayerManager.Instance.SpawnPoints.Count)].transform.position;
+        gameObject.gameObject.transform.position = PlayerManager.Instance.Spawnpoint(team).position;
         CC.enabled = true;
     }
 
@@ -97,13 +107,27 @@ public class PlayerController : MonoBehaviour
         Time.timeScale = 1f;
     }
 
+    [SerializeField] bool SinglePlayer;
+
     public void Start()
     {
+
+       // Input.Player1.Attack.performed += _ => Shoot();
+
         Time.timeScale = 0f;
-       
+        
+        if(SinglePlayer)
+        {
+            Time.timeScale = 1f;
+            canMove = true;
+        }
 
         Cursor.lockState = CursorLockMode.Locked;
-        PlayerManager.Instance.RegisterUserToTeam(this);
+
+        if (!SinglePlayer)
+        {
+            PlayerManager.Instance.RegisterUserToTeam(this);
+        }
 
 
     }
@@ -210,21 +234,27 @@ public class PlayerController : MonoBehaviour
       
     }
 
-    public void Shoot()
+    public void Shoot(InputAction.CallbackContext context)
     {
-        switch (team)
+        if (context.performed)
         {
-            case Team.none:
-                return;
-            case Team.White:
-                WeaponPrefab.GetComponent<IWeapon>().Shoot(BlackTeam);
+          
+            MuzzelFash.Play();
+            Smoke.Play();
 
-                break;
-            case Team.Black:
-                WeaponPrefab.GetComponent<IWeapon>().Shoot(WhiteTeam); break;
+            switch (team)
+            {
+                case Team.none:
+                    return;
+                case Team.White:
+                    WeaponPrefab.GetComponent<IWeapon>().Shoot(BlackTeam);
 
+                    break;
+                case Team.Black:
+                    WeaponPrefab.GetComponent<IWeapon>().Shoot(WhiteTeam); break;
+
+            }
         }
-
  
     }
 
@@ -281,7 +311,7 @@ public class PlayerController : MonoBehaviour
 
     public void MovePlayer()
     {
-        if(!canMove)
+        if(!canMove && !SinglePlayer)
         {
             return;
 

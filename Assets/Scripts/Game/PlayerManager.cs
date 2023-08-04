@@ -22,6 +22,10 @@ public class PlayerManager : MonoBehaviour
     public List<GameObject> SpawnPoints = new();
 
 
+    public List<GameObject> SpawnPointsWhite = new();
+
+    public List<GameObject> SpawnPointsBlack = new();
+
 
     [SerializeField]
     private List<PlayerController> Whiteteam = new();
@@ -31,6 +35,34 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     ControllerWait cwait;
 
+
+
+    public Transform Spawnpoint(Team team)
+    {
+        switch(Mathf.RoundToInt(Random.value))
+        {
+            case 0:
+               return SpawnPoints[Random.Range(0, SpawnPoints.Count)].transform;
+  
+            case 1:
+                switch(team)
+                {
+                    case Team.Black:
+                        return SpawnPointsBlack[Random.Range(0, SpawnPointsBlack.Count)].transform;
+                
+                    case Team.White:
+                        return SpawnPointsWhite[Random.Range(0, SpawnPointsWhite.Count)].transform;
+                  
+                }
+                break;
+
+            
+        }
+
+        return null;
+
+
+    }
 
     public void PlayerJoined(PlayerInput input)
     {
@@ -144,6 +176,7 @@ public class PlayerManager : MonoBehaviour
     {
         if (Instance == null)
         {
+           
             DontDestroyOnLoad(gameObject);
             Instance = this;
         }

@@ -35,12 +35,12 @@ public class Pistol : MonoBehaviour, IWeapon
 
     public void Shoot(LayerMask team)
     {
-        Debug.Log("Shoot");
+    
         RaycastHit hit;
         if (Physics.Raycast(Shootpoint.position, Shootpoint.forward, out hit, MaxDistance))
         {
-            Debug.Log(hit.collider.gameObject.layer);
-            Debug.Log(hit.collider.gameObject.name);
+   
+          
             if (hit.collider.gameObject.layer == 30 || hit.collider.gameObject.layer == 31)
             {
                 hit.collider.gameObject.GetComponent<PlayerController>().Dammage();
