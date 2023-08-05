@@ -16,6 +16,7 @@ public enum Team
 
 public class PlayerController : MonoBehaviour
 {
+    #region Variables
     public Team team = Team.none;
 
     public bool CanUsePowerups = true;
@@ -82,6 +83,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private ParticleSystem Smoke;
 
+    #endregion
+
+    #region Enables and Disabled
     private void OnEnable()
     {
         Input = new();
@@ -94,7 +98,9 @@ public class PlayerController : MonoBehaviour
         Input.Disable();
     }
 
+    #endregion
 
+    #region GameStartandBasicFunctions
     public void Respawn()
     {
         CC.enabled = false;
@@ -163,7 +169,9 @@ public class PlayerController : MonoBehaviour
        
     }
 
+    #endregion
 
+    #region PowerUps
     float durationSeeAll = 5f;
     public void StartSeeALLPowerUp()
     {
@@ -234,6 +242,9 @@ public class PlayerController : MonoBehaviour
         canMove = true;
     }
 
+    #endregion
+
+    #region WeaponBasics
     public void Dammage()
     {
         HoldingFlag = false;
@@ -273,7 +284,9 @@ public class PlayerController : MonoBehaviour
         }
  
     }
+    #endregion
 
+    #region PlayerMovement
     public void JumpGravity()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, GroundMask);
@@ -319,21 +332,15 @@ public class PlayerController : MonoBehaviour
         jumpDown = context.ReadValue<float>() == 1;
     }
 
-
-
-
-
-
-
     public void MovePlayer()
     {
-        if(!canMove && !SinglePlayer)
+        if (!canMove && !SinglePlayer)
         {
             return;
 
         }
 
-        Vector3 move = transform.right * Move.x+ transform.forward * Move.y;
+        Vector3 move = transform.right * Move.x + transform.forward * Move.y;
 
 
         CC.Move(move * PlayerSpeed * Time.deltaTime);
@@ -350,5 +357,51 @@ public class PlayerController : MonoBehaviour
         playerCamera.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
     }
 
-  
+    #endregion
+    #region WeaponSwitching
+
+    int SelectedSlot = 0;
+
+
+
+    /// <summary>
+    /// Called By the New InputSystem
+    /// </summary>
+    /// <param name="context"></param>
+    public void SwitchWeaponRight(InputAction.CallbackContext context)
+    {
+        //context.performed is called on the down action of the button and not the up action meaning this is called once instead of twice
+        if(context.performed)
+        {
+            //selected slot should increase by 1 and should probably be capped at 3
+
+
+            SwitchWeapon();
+        }
+    }
+
+    /// <summary>
+    /// Called By the New InputSystem
+    /// </summary>
+    /// <param name="context"></param>
+    public void SwitchWeaponLeft(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            //selected slot should decrese by 1 and should probably be capped at 0
+
+            SwitchWeapon();
+        }
+    }
+
+    /// <summary>
+    /// Switch Weapons For Player
+    /// </summary>
+    public void SwitchWeapon()
+    {
+       //for creating new weapons look at how the pistol gameobject and script is setup 
+       //i would just recomend having other weapons being hiddend and showed when the slot is selected 
+    }
+
+    #endregion
 }

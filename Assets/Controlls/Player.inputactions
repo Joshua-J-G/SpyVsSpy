@@ -49,6 +49,24 @@
                     "processors": "",
                     "interactions": "Press",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SwitchWeaponsRight",
+                    "type": "Button",
+                    "id": "211b021b-ad21-4f2f-a961-8c63d1a3fe4a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SwitchWeaponLeft",
+                    "type": "Button",
+                    "id": "4db35d0b-ed89-418a-a8f9-d838893456e3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -192,6 +210,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Use Ability",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2e77b83d-1464-4b48-be8a-6ad749892b29",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchWeaponsRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "95920dd6-be75-42f3-8e31-38ba4941155f",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchWeaponLeft",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
