@@ -18,17 +18,19 @@ public class PlayerController : MonoBehaviour
 {
     public Team team = Team.none;
 
+    public bool CanUsePowerups = true;
   
     public PowerUps PowerUpSlot;
 
+    public bool HoldingFlag = false;
 
-    [SerializeField]
-    private LayerMask WhiteTeam;
-    [SerializeField]
-    private LayerMask BlackTeam;
 
-    [SerializeField]
-    private LayerMask SeelALl;
+    public LayerMask WhiteTeam;
+
+    public LayerMask BlackTeam;
+
+
+    public LayerMask SeelALl;
 
     [Space]
 
@@ -111,7 +113,7 @@ public class PlayerController : MonoBehaviour
 
     public void Start()
     {
-
+        CanUsePowerups = true;
        // Input.Player1.Attack.performed += _ => Shoot();
 
         Time.timeScale = 0f;
@@ -131,10 +133,13 @@ public class PlayerController : MonoBehaviour
 
 
     }
-
+    public bool CullingMaskReset = false;
     private void Update()
     {
-        if (!InPowerUP)
+
+
+
+        if (!InPowerUP && !CullingMaskReset)
         {
             switch (team)
             {
@@ -145,7 +150,8 @@ public class PlayerController : MonoBehaviour
 
                     break;
                 case Team.Black:
-                    playerCamera.cullingMask = WhiteTeam; break;
+                    playerCamera.cullingMask = WhiteTeam; 
+                    break;
 
             }
         }
@@ -175,6 +181,11 @@ public class PlayerController : MonoBehaviour
 
     public void UsePowerUpSlot()
     {
+        if(!CanUsePowerups)
+        {
+            return;
+        }
+
         switch (PowerUpSlot)
         {
             case PowerUps.ShowEnemiesToPlayer:
@@ -225,6 +236,11 @@ public class PlayerController : MonoBehaviour
 
     public void Dammage()
     {
+        HoldingFlag = false;
+        CanUsePowerups = true;
+        PlayerManager.Instance.HideOtherPlayer(team);
+
+
         Respawn();
     }
 

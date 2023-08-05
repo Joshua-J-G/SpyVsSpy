@@ -3,9 +3,19 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class PlayerManager : MonoBehaviour
 {
+
+    [SerializeField]
+    private TMP_Text right;
+
+    [SerializeField]
+    private TMP_Text left;
+
+    public int rightCapCount, leftCapCount;
+
     public static PlayerManager Instance;
 
 
@@ -70,7 +80,59 @@ public class PlayerManager : MonoBehaviour
      
     }
 
- 
+    public void ShowOtherPlayers(Team team)
+    {
+        switch(team)
+        {
+            case Team.Black:
+                foreach(PlayerController cc in Blackteam)
+                {
+                    cc.CullingMaskReset = true;
+                    Debug.Log("I DONT KNOW WHY");
+                    cc.playerCamera.cullingMask = cc.SeelALl;
+
+                   
+                }
+
+                break;
+            case Team.White:
+
+                foreach (PlayerController cc in Whiteteam)
+                {
+                    cc.CullingMaskReset = true;
+
+
+                    cc.playerCamera.cullingMask = cc.SeelALl;
+                   
+                }
+                break;
+        }
+    }
+
+    public void HideOtherPlayer(Team team)
+    {
+        switch (team)
+        {
+            case Team.White:
+                foreach (PlayerController cc in Blackteam)
+                {
+                
+                    cc.CullingMaskReset = false;
+                }
+
+                break;
+            case Team.Black:
+
+                foreach (PlayerController cc in Whiteteam)
+                {
+                   
+                    cc.CullingMaskReset = false;
+                }
+                break;
+        }
+    }
+
+
     public List<PlayerController> GetTeam(Team team)
     {
         switch (team)
@@ -172,6 +234,8 @@ public class PlayerManager : MonoBehaviour
     }
 
 
+
+
     public void Awake()
     {
         if (Instance == null)
@@ -195,10 +259,13 @@ public class PlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       /* if (Players.Count == 2)
-        {
-            Players[0].GetComponent<PlayerController>().playerCamera.rect = new Rect(0, 0, 1, 0.5f);
-            Players[1].GetComponent<PlayerController>().playerCamera.rect = new Rect(0, 0.5f, 1, 0.5f);
-        };*/
+        right.text = rightCapCount.ToString();
+        left.text = leftCapCount.ToString();
+
+        /* if (Players.Count == 2)
+         {
+             Players[0].GetComponent<PlayerController>().playerCamera.rect = new Rect(0, 0, 1, 0.5f);
+             Players[1].GetComponent<PlayerController>().playerCamera.rect = new Rect(0, 0.5f, 1, 0.5f);
+         };*/
     }
 }
