@@ -7,6 +7,9 @@ using TMPro;
 
 public class PlayerManager : MonoBehaviour
 {
+    [SerializeField]
+    private ControllerWait CWaitUi;
+
 
     [SerializeField]
     private TMP_Text right;
@@ -76,6 +79,8 @@ public class PlayerManager : MonoBehaviour
 
     public void PlayerJoined(PlayerInput input)
     {
+        
+
         Debug.Log("PlayerJoined");
      
     }
@@ -160,7 +165,7 @@ public class PlayerManager : MonoBehaviour
     public void RegisterUserToTeam(PlayerController player)
     {
         
-     
+        
 
         if(!Players.Contains(player.gameObject))
         {
@@ -230,6 +235,19 @@ public class PlayerManager : MonoBehaviour
             {
                 c.GetComponent<PlayerController>().StartPlayer();
             }
+        }
+
+
+        switch(Players.Count)
+        {
+            case 1:
+                CWaitUi.showControllersRight();
+                break;
+            case 2:
+                CWaitUi.showControllersleft();
+                break;
+            default:
+                return;
         }
     }
 
