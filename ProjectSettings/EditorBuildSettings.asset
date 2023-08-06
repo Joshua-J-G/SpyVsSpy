@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
+    path: Assets/Scenes/CTF_Forts.unity
+    guid: 24e86be9135380b428f6918566802ca0
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 8dfef18d397b854428b63b0c3f424f7f, type: 2}
