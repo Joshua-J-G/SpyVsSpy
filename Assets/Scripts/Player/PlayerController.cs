@@ -26,6 +26,9 @@ public class PlayerController : MonoBehaviour
     public bool HoldingFlag = false;
 
 
+    [SerializeField] GameObject FreezeOverlay;
+    public GameObject EyeOverlay;
+
     public LayerMask WhiteTeam;
 
     public LayerMask BlackTeam;
@@ -183,6 +186,13 @@ public class PlayerController : MonoBehaviour
     {
         PowerUpSlot = PowerUps.none;
         InPowerUP = false;
+        foreach (PlayerController c in PlayerManager.Instance.GetTeam(team))
+        {
+            if (!c.HoldingFlag)
+            {
+                c.EyeOverlay.SetActive(false);
+            }
+        }
     }
 
 
@@ -199,6 +209,12 @@ public class PlayerController : MonoBehaviour
             case PowerUps.ShowEnemiesToPlayer:
 
                 InPowerUP = true;
+
+                foreach (PlayerController c in PlayerManager.Instance.GetTeam(team))
+                {
+                    c.EyeOverlay.SetActive(true);
+                }
+
                 playerCamera.cullingMask = SeelALl;
                 Invoke("EndSeeALLPowerUP", durationSeeAll);
 
@@ -231,6 +247,7 @@ public class PlayerController : MonoBehaviour
 
     public void freeze()
     {
+        FreezeOverlay.SetActive(true);
         CancelInvoke("endFreeze");
         
         canMove = false;
@@ -240,6 +257,7 @@ public class PlayerController : MonoBehaviour
     private void endFreeze()
     {
         canMove = true;
+        FreezeOverlay.SetActive(false);
     }
 
     #endregion

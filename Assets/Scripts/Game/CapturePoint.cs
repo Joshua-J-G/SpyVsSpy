@@ -21,6 +21,7 @@ public class CapturePoint : MonoBehaviour
                         pc.HoldingFlag = true;
                         pc.CanUsePowerups = false;
                         PlayerManager.Instance.ShowOtherPlayers(team);
+                        pc.EyeOverlay.SetActive(true);
                     }
 
                     if(team == Team.Black && pc.HoldingFlag)
@@ -30,6 +31,7 @@ public class CapturePoint : MonoBehaviour
                         Debug.Log("CapturePoint");
                         PlayerManager.Instance.HideOtherPlayer(team);
                         PlayerManager.Instance.rightCapCount++;
+                        pc.EyeOverlay.SetActive(false);
                     }
                     break;
 
@@ -40,6 +42,7 @@ public class CapturePoint : MonoBehaviour
                         pc.HoldingFlag = true;
                         pc.CanUsePowerups = false;
                         PlayerManager.Instance.ShowOtherPlayers(team);
+                        pc.EyeOverlay.SetActive(true);
                     }
 
                     if (team == Team.White && pc.HoldingFlag)
@@ -48,7 +51,8 @@ public class CapturePoint : MonoBehaviour
                         pc.CanUsePowerups = true;
                         Debug.Log("CapturePoint");
                         PlayerManager.Instance.HideOtherPlayer(team);
-                        PlayerManager.Instance.leftCapCount++; 
+                        PlayerManager.Instance.leftCapCount++;
+                        pc.EyeOverlay.SetActive(false);
                     }
                     break;
             }
