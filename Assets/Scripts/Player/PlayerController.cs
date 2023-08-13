@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -25,6 +26,8 @@ public class PlayerController : MonoBehaviour
 
     public bool HoldingFlag = false;
 
+
+    [SerializeField] GameObject IcePowerIcon, SeePowerIcon; 
 
     [SerializeField] GameObject FreezeOverlay;
     public GameObject EyeOverlay;
@@ -70,7 +73,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private float PlayerSpeed = 12f;
     [SerializeField]
-    private float StickSensitivity = 100f;
+    public float StickSensitivity = 100f;
     [SerializeField]
     private float gravity = -9.81f;
     [SerializeField]
@@ -85,6 +88,9 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     private ParticleSystem Smoke;
+
+    public GameObject HoldingFlagicon;
+
 
     #endregion
 
@@ -147,6 +153,23 @@ public class PlayerController : MonoBehaviour
     {
 
 
+        switch(PowerUpSlot)
+        {
+            case PowerUps.none:
+                IcePowerIcon.SetActive(false);
+                    SeePowerIcon.SetActive(false);
+                break;
+            case PowerUps.freeze:
+                IcePowerIcon.SetActive(true);
+                SeePowerIcon.SetActive(false);
+                break;
+            case PowerUps.ShowEnemiesToPlayer:
+                IcePowerIcon.SetActive(false);
+                SeePowerIcon.SetActive(true);
+                break;
+        }
+
+
 
         if (!InPowerUP && !CullingMaskReset)
         {
@@ -164,12 +187,11 @@ public class PlayerController : MonoBehaviour
 
             }
         }
-      
-        MovePlayer();
-     
-        JumpGravity();
+
         //UpdateCamera();
-       
+        MovePlayer();
+
+        JumpGravity();
     }
 
     #endregion
@@ -263,21 +285,48 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region WeaponBasics
+
+    public GameObject suitcase;
+
     public void Dammage()
     {
-        HoldingFlag = false;
-        CanUsePowerups = true;
-        PlayerManager.Instance.HideOtherPlayer(team);
+        if (HoldingFlag)
+        {
+
+
+            HoldingFlag = false;
+            CanUsePowerups = true;
+            PlayerManager.Instance.HideOtherPlayer(team);
+            HoldingFlagicon.SetActive(false);
+            EyeOverlay.SetActive(false);
+            suitcase.SetActive(true);
+        }
+
 
 
         Respawn();
     }
 
-    private void  LateUpdate()
+    private void LateUpdate()
     {
+
         UpdateCamera();
+    }
+
+    private void FixedUpdate()
+    {
+     
       
     }
+
+    public void PauseMenu(InputAction.CallbackContext context)
+    {
+        if(context.performed)
+        {
+            PlayerManager.Instance.Pause();
+        }
+    }
+
 
     public void Shoot(InputAction.CallbackContext context)
     {
@@ -321,9 +370,9 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        velocity.y += gravity * Time.deltaTime;
+        velocity.y += gravity * Time.fixedDeltaTime;
 
-        CC.Move(velocity * Time.deltaTime);
+        CC.Move((velocity * Time.fixedDeltaTime) + PlayerMovement);
     }
 
 
@@ -350,6 +399,8 @@ public class PlayerController : MonoBehaviour
         jumpDown = context.ReadValue<float>() == 1;
     }
 
+    private Vector3 PlayerMovement;
+
     public void MovePlayer()
     {
         if (!canMove && !SinglePlayer)
@@ -360,15 +411,19 @@ public class PlayerController : MonoBehaviour
 
         Vector3 move = transform.right * Move.x + transform.forward * Move.y;
 
-
-        CC.Move(move * PlayerSpeed * Time.deltaTime);
+        PlayerMovement = move * PlayerSpeed * Time.fixedDeltaTime;
+        //CC.Move(move * PlayerSpeed * Time.deltaTime);
     }
 
     float xRotation = 0f;
 
     public void UpdateCamera()
     {
-        Vector2 StickPosition = CameraMove * StickSensitivity * (Time.deltaTime);
+        if(Time.timeScale == 0)
+        {
+            return;
+        }
+        Vector2 StickPosition = (CameraMove * StickSensitivity) * (Time.fixedDeltaTime);
         xRotation -= StickPosition.y;
         gameObject.transform.Rotate(Vector3.up * StickPosition.x);
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);

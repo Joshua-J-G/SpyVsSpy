@@ -7,6 +7,19 @@ public class CapturePoint : MonoBehaviour
     [SerializeField]
     private Team team;
 
+
+    [SerializeField]
+    GameObject Suitcase;
+
+
+    [SerializeField]
+    CapturePoint opisite;
+
+    public void Update()
+    {
+        Suitcase.transform.Rotate(Vector3.up * 20 * Time.deltaTime);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag("Player"))
@@ -22,6 +35,9 @@ public class CapturePoint : MonoBehaviour
                         pc.CanUsePowerups = false;
                         PlayerManager.Instance.ShowOtherPlayers(team);
                         pc.EyeOverlay.SetActive(true);
+                        pc.HoldingFlagicon.SetActive(true);
+                        Suitcase.SetActive(false);
+                        pc.suitcase = Suitcase;
                     }
 
                     if(team == Team.Black && pc.HoldingFlag)
@@ -31,7 +47,10 @@ public class CapturePoint : MonoBehaviour
                         Debug.Log("CapturePoint");
                         PlayerManager.Instance.HideOtherPlayer(team);
                         PlayerManager.Instance.rightCapCount++;
+                        pc.HoldingFlagicon.SetActive(false);
                         pc.EyeOverlay.SetActive(false);
+                        opisite.Suitcase.SetActive(true);
+                        pc.suitcase = null ;
                     }
                     break;
 
@@ -43,6 +62,9 @@ public class CapturePoint : MonoBehaviour
                         pc.CanUsePowerups = false;
                         PlayerManager.Instance.ShowOtherPlayers(team);
                         pc.EyeOverlay.SetActive(true);
+                        pc.HoldingFlagicon.SetActive(true);
+                        Suitcase.SetActive(false);
+                        pc.suitcase = Suitcase;
                     }
 
                     if (team == Team.White && pc.HoldingFlag)
@@ -53,6 +75,9 @@ public class CapturePoint : MonoBehaviour
                         PlayerManager.Instance.HideOtherPlayer(team);
                         PlayerManager.Instance.leftCapCount++;
                         pc.EyeOverlay.SetActive(false);
+                        pc.HoldingFlagicon.SetActive(false);
+                        opisite.Suitcase.SetActive(true);
+                        pc.suitcase = null;
                     }
                     break;
             }

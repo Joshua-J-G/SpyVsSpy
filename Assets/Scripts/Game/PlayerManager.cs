@@ -4,6 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -45,6 +46,10 @@ public class PlayerManager : MonoBehaviour
     [SerializeField]
     private List<PlayerController> Blackteam = new();
 
+
+    [SerializeField]
+    private Slider white, black;
+
     [SerializeField]
     ControllerWait cwait;
 
@@ -84,6 +89,30 @@ public class PlayerManager : MonoBehaviour
         Debug.Log("PlayerJoined");
      
     }
+
+    bool isgamePause = false;
+
+    [SerializeField] GameObject PauseMenu;
+
+    public void Pause()
+    {
+        isgamePause = !isgamePause;
+        if(isgamePause)
+        {
+            Cursor.lockState = CursorLockMode.None;
+            PauseMenu.SetActive(true);
+            Time.timeScale = 0;
+        }else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            PauseMenu.SetActive(false);
+            Time.timeScale = 1;
+        }
+    }
+
+
+
+
 
     public void ShowOtherPlayers(Team team)
     {
@@ -274,11 +303,29 @@ public class PlayerManager : MonoBehaviour
        
     }
 
+    [SerializeField]
+    TMP_Text whiteText, BlackText;
+
     // Update is called once per frame
     void Update()
     {
         right.text = rightCapCount.ToString();
         left.text = leftCapCount.ToString();
+        if (Whiteteam.Count != 0&& Blackteam.Count != 0)
+        {
+            whiteText.text = white.value.ToString();
+            BlackText.text = black.value.ToString();
+
+            if (Whiteteam[0].StickSensitivity != white.value)
+            {
+                Whiteteam[0].StickSensitivity = white.value;
+            }
+
+            if (Blackteam[0].StickSensitivity != black.value)
+            {
+                Blackteam[0].StickSensitivity = black.value;
+            }
+        }
 
         /* if (Players.Count == 2)
          {
