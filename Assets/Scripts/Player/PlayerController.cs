@@ -370,9 +370,9 @@ public class PlayerController : MonoBehaviour
         }
 
 
-        velocity.y += gravity * Time.fixedDeltaTime;
+        velocity.y += gravity * Time.deltaTime;
 
-        CC.Move((velocity * Time.fixedDeltaTime) + PlayerMovement);
+        CC.Move((velocity * Time.deltaTime) + PlayerMovement);
     }
 
 
@@ -411,7 +411,7 @@ public class PlayerController : MonoBehaviour
 
         Vector3 move = transform.right * Move.x + transform.forward * Move.y;
 
-        PlayerMovement = move * PlayerSpeed * Time.fixedDeltaTime;
+        PlayerMovement = move * PlayerSpeed * Time.deltaTime;
         //CC.Move(move * PlayerSpeed * Time.deltaTime);
     }
 
@@ -423,7 +423,7 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-        Vector2 StickPosition = (CameraMove * StickSensitivity) * (Time.fixedDeltaTime);
+        Vector2 StickPosition = (CameraMove * StickSensitivity) * (Time.deltaTime);
         xRotation -= StickPosition.y;
         gameObject.transform.Rotate(Vector3.up * StickPosition.x);
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
